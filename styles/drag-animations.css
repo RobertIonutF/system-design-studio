@@ -1,0 +1,320 @@
+/* Drag and Drop Animations for System Design Studio */
+
+/* Smooth drag transitions */
+.react-flow__node {
+  transition: transform 0.2s cubic-bezier(0.4, 0.0, 0.2, 1), 
+              box-shadow 0.2s ease, 
+              border-color 0.2s ease,
+              opacity 0.2s ease,
+              scale 0.2s ease;
+}
+
+/* Dragging state */
+.react-flow__node.dragging {
+  transform: scale(1.05);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  opacity: 0.9;
+}
+
+/* Hover effects */
+.react-flow__node:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Parent nodes with children */
+.react-flow__node.has-children {
+  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.3);
+}
+
+.react-flow__node.has-children.collapsed {
+  opacity: 0.8;
+  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+}
+
+/* Valid drop target */
+.react-flow__node.valid-drop-target {
+  animation: validGlow 1s ease-in-out infinite alternate;
+  border-color: #10b981 !important;
+  background-color: rgba(16, 185, 129, 0.1) !important;
+  transform: scale(1.05);
+}
+
+@keyframes validGlow {
+  0% {
+    box-shadow: 0 0 10px rgba(16, 185, 129, 0.4);
+  }
+  100% {
+    box-shadow: 0 0 20px rgba(16, 185, 129, 0.6);
+  }
+}
+
+/* Invalid drop target */
+.react-flow__node.invalid-drop-target {
+  animation: invalidPulse 0.6s ease-in-out infinite alternate;
+  border-color: #ef4444 !important;
+  background-color: rgba(239, 68, 68, 0.1) !important;
+}
+
+@keyframes invalidPulse {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 5px rgba(239, 68, 68, 0.4);
+  }
+  100% {
+    transform: scale(1.02);
+    box-shadow: 0 0 15px rgba(239, 68, 68, 0.6);
+  }
+}
+
+/* Snap animation when placing nodes */
+.react-flow__node.snapping {
+  animation: snapIntoPlace 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+@keyframes snapIntoPlace {
+  0% {
+    transform: scale(1.2) rotate(5deg);
+    opacity: 0.7;
+  }
+  50% {
+    transform: scale(0.9) rotate(-2deg);
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+}
+
+/* Child node placement animations */
+.react-flow__node.child-in {
+  border-style: dashed;
+  border-width: 2px;
+  opacity: 0.95;
+  position: relative;
+}
+
+.react-flow__node.child-in::before {
+  content: '';
+  position: absolute;
+  top: -4px;
+  left: -4px;
+  right: -4px;
+  bottom: -4px;
+  border: 2px solid rgba(99, 102, 241, 0.3);
+  border-radius: 12px;
+  pointer-events: none;
+}
+
+.react-flow__node.child-on {
+  position: relative;
+  transform: scale(0.8);
+  z-index: 10;
+}
+
+/* Attached badge nodes */
+.react-flow__node.child-on::after {
+  content: '';
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  width: 12px;
+  height: 12px;
+  background: #3b82f6;
+  border-radius: 50%;
+  border: 2px solid white;
+  animation: attachedBadge 0.3s ease-out;
+}
+
+@keyframes attachedBadge {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.5);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Collapse/Expand animations */
+.react-flow__node.expanding {
+  animation: expandNode 0.3s ease-out;
+}
+
+.react-flow__node.collapsing {
+  animation: collapseNode 0.3s ease-in;
+}
+
+@keyframes expandNode {
+  0% {
+    transform: scale(0.8);
+    opacity: 0.5;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes collapseNode {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0.9);
+    opacity: 0.7;
+  }
+}
+
+/* Multi-select indicators */
+.react-flow__node.multi-selected {
+  outline: 2px dashed #3b82f6;
+  outline-offset: 4px;
+}
+
+/* Group selection box */
+.selection-box {
+  position: absolute;
+  border: 2px dashed #3b82f6;
+  background: rgba(59, 130, 246, 0.1);
+  pointer-events: none;
+  z-index: 999;
+  animation: selectionBoxAppear 0.2s ease-out;
+}
+
+@keyframes selectionBoxAppear {
+  0% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Connection preview */
+.connection-preview {
+  stroke: #3b82f6;
+  stroke-width: 3px;
+  stroke-dasharray: 8 4;
+  animation: connectionFlow 1s linear infinite;
+  opacity: 0.8;
+}
+
+@keyframes connectionFlow {
+  0% {
+    stroke-dashoffset: 0;
+  }
+  100% {
+    stroke-dashoffset: -12;
+  }
+}
+
+/* Duplication effect */
+.react-flow__node.duplicating {
+  animation: duplicateEffect 0.6s ease-out;
+}
+
+@keyframes duplicateEffect {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 0 rgba(59, 130, 246, 0.8);
+  }
+  50% {
+    transform: scale(1.1);
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.6);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 rgba(59, 130, 246, 0);
+  }
+}
+
+/* Error state animation */
+.react-flow__node.error {
+  animation: errorShake 0.5s ease-in-out;
+  border-color: #ef4444 !important;
+}
+
+@keyframes errorShake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-4px); }
+  75% { transform: translateX(4px); }
+}
+
+/* Loading state */
+.react-flow__node.loading {
+  position: relative;
+  opacity: 0.7;
+}
+
+.react-flow__node.loading::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 20px;
+  height: 20px;
+  margin: -10px 0 0 -10px;
+  border: 2px solid transparent;
+  border-top: 2px solid #3b82f6;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Success placement feedback */
+.react-flow__node.placement-success {
+  animation: successPulse 0.8s ease-out;
+}
+
+@keyframes successPulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.8);
+    transform: scale(1);
+  }
+  50% {
+    box-shadow: 0 0 20px 10px rgba(16, 185, 129, 0.3);
+    transform: scale(1.05);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+    transform: scale(1);
+  }
+}
+
+/* Canvas dragging state */
+.react-flow.dragging {
+  cursor: grabbing !important;
+}
+
+.react-flow.dragging .react-flow__node {
+  pointer-events: none;
+}
+
+.react-flow.dragging .react-flow__node.dragging {
+  pointer-events: all;
+}
+
+/* Responsive animations */
+@media (prefers-reduced-motion: reduce) {
+  .react-flow__node,
+  .react-flow__node *,
+  .react-flow__node *::before,
+  .react-flow__node *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

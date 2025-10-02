@@ -1,4 +1,6 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# System Design Practice Studio
+
+An **interactive web application** that lets engineers design and simulate software system architectures to practice for system design interviews. Build complex distributed system diagrams, complete structured challenges, earn badges, and track your progress through increasingly difficult real-world scenarios.
 
 ## Getting Started
 
